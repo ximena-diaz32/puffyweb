@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block titulo %} LISTADO {% endblock %}
+
+{% block contenido %}
+<br><br>
+<section>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4 text-center">¿Quieres ver algunas de nuestras Creaciones?</h1>
+            <br>
+            <p class="lead text-center">
+                Aquí puedes encontrar algunos de nuestros productos, si los quieres,
+                no dudes en escribirnos a través de nuestro formulario de contacto.
+            </p>
+        </div>
+        <br>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            {% for producto in productos %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/300x200?text=Sin+Imagen" class="card-img-top" alt="Sin imagen">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text">{{ producto.descripcion }}</p>
+                        <p class="card-text"><strong>${{ producto.precio }}</strong></p>
+
+                        {% if producto.disponible > 0 %}
+                            <form method="post" action="{% url 'agregar_al_carro' producto.id %}">
+                                {% csrf_token %}
+                                <div class="input-group mt-2">
+                                    <input type="number" name="cantidad" class="form-control form-control-sm"
+                                        min="1" max="{{ producto.disponible }}" value="1" required>
+                                    <button type="submit" class="btn btn-outline-primary btn-sm">Agregar</button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <p class="text-danger mt-2"><strong>Sin stock disponible</strong></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center">No hay productos disponibles por el momento.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<br><br>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block titulo %} Guardar Producto{% endblock %}
+
+{% block contenido%}
+
+<br>
+<br>
+<div class="card">                                            {#Tarjeta de Bootstrap para el formulario #}
+    <div class="card-header"><h2>AGREGAR PRODUCTO<h2></div>           {# Encabezado de la tarjeta #}
+    <div class="card-body">  
+        <br>                                 {# Cuerpo de la tarjeta #}
+        <h3 class="card-title">Datos del Producto</h3> 
+        <br>
+        {% include 'market/form.html' %}
+    </div>
+    <div class="card-footer text-muted"></div>                {# Pie de la tarjeta (opcional) #}
+</div>
+<br><br><br><br>
+{% endblock%}

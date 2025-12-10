@@ -1,0 +1,126 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>{% block titulo %}{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.3.2 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #42D5F5;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="https://i.ibb.co/2YLNfxks/puffy-logo-circulo-sin-instagram.png" alt="" width="30" height="30">
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <!-- Ítems alineados a la izquierda -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'inicio' %}">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'nosotros' %}">¿QUIÉNES SOMOS?</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'listado' %}">TIENDA</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'contacto' %}">CONTACTO</a>
+                        </li>
+                    </ul>
+
+                    <!-- Ítems alineados a la derecha -->
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item me-3">
+                            <a class="nav-link fw-bold text-success position-relative" href="{% url 'ver_carro' %}">
+                                🛒 Carrito
+                                {% if carrito_total > 0 %}
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ carrito_total }}
+                                    </span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li class="nav-item me-3">
+                            <a class="nav-link fw-bold text-danger" href="{% url 'market' %}">ADMIN PANEL</a>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item me-3">
+                                <a class="nav-link text-dark" href="{% url 'perfil' %}">Mi perfil</a>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="nav-link btn btn-link text-dark p-2" style="text-decoration: none;">
+                                        Cerrar sesión
+                                    </button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="{% url 'login' %}">Iniciar sesión</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-4">
+            {% block contenido %}{% endblock %}
+        </div>
+    </header>
+
+<footer class="mt-5">
+    <hr class="mb-0">
+    <div class="container">
+        <div class="row text-left text-md-start py-4">
+            <!-- Columna izquierda -->
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold">Información</h6>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'politicas_envio' %}" class="text-decoration-none text-muted">Políticas de Envío</a></li>
+                    <li><a href="{% url 'politicas_privacidad' %}" class="text-decoration-none text-muted">Política de Privacidad</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna central -->
+            <div class="col-md-4 mb-3 text-center">
+                <p>SÍGUENOS EN INSTAGRAM A TRAVÉS DEL SIGUIENTE</p>
+                <a href="https://www.instagram.com/puffy_amigurumis?igsh=d2R3a3ZyeTNvam9y&utm_source=qr" class="btn btn-primary">LINK</a>
+                <br><br>
+                <p>SI, PRESIONANDO DONDE DICE LINK ;-)</p>
+                <br>
+                <p>"Todos los derechos Reservados: Puffy Amigurumis 2025"</p>
+            </div>
+
+            <!-- Columna derecha (vacía o futura expansión) -->
+            <div class="col-md-4 mb-3">
+                <!-- Espacio reservado para contenido adicional -->
+            </div>
+        </div>
+    </div>
+</footer>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

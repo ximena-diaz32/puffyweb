@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block titulo %} INICIO {% endblock %}
+
+{% block contenido%}
+
+<br><br>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-center">¡Bienvenido a Puffy Amigurumis!</h1>                     {# Título principal centrado#}
+    <br>
+    <p class="lead text-center">Descubre junto a nosotros el maravilloso mundo de los Amigurmis,
+      pequeños compañeros hechos para tí en los mas diversos diseños, modelos, colores y materiales.
+      Te damos la binenvenida y agradecemos por hacerte parte de este maravilloso mundo,
+      y recuerda, solo podemos ganatizar algo...ellos son muy Puffy</p>
+  </div>
+  <br>
+</div>
+<div id="carousel" class="carousel slide" data-bs-ride="carousel">                             {# Carrusel de Bootstrap #}
+    <div class="carousel-inner" role="listbox">
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <img src="https://i.ibb.co/QFjtwjgm/logo.png" class="w-100 d-block" />
+            </div>                                                                             {# Primera imagen del carrusel #}
+            <div class="carousel-item">
+                <img src="https://i.ibb.co/zVmsn4XM/car02.png" class="w-100 d-block" />
+            </div>                                                                             {# Segunda imagen del carrusel #}
+            <div class="carousel-item">
+                <img src="https://i.ibb.co/39YW4z0F/car03.png" class="w-100 d-block" />
+            </div>                                                                             {# Tercera imagen del carrusel #}
+            <div class="carousel-item">
+                <img src="https://i.ibb.co/gF4dD3LQ/car04.png" class="w-100 d-block" />
+            </div>                                                                             {# Cuarta imagen del carrusel #}
+            <div class="carousel-item">
+                <img src="https://i.ibb.co/3YF159XQ/car05.png" class="w-100 d-block" />
+            </div>                                                                             {# Quinta imagen del carrusel #}
+            <div class="carousel-item"> 
+                <img src="https://i.ibb.co/V0414fVM/car06.png" class="w-100 d-block" />
+            </div>                                                                             {# Sexta imagen del carrusel #}
+            <div class="carousel-item">
+                <img src="https://i.ibb.co/sv6dmd0n/car07.png" class="w-100 d-block" />
+            </div> 
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br><br>
+
+
+
+    {% endblock%}

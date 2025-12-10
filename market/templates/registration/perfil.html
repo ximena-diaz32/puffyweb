@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titulo %}Mi perfil{% endblock %}
+
+{% block contenido %}
+<div class="container py-4">
+    <h2 class="mb-4">Hola, {{ request.user.username }}</h2>
+
+    <h4 class="mb-3">Historial de compras</h4>
+
+    {% if pedidos %}
+        {% for pedido in pedidos %}
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header bg-light">
+                    <strong>Pedido #{{ pedido.id }}</strong> — {{ pedido.fecha|date:"d/m/Y H:i" }}
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for detalle in pedido.detalles.all %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ detalle.producto.nombre }}
+                                <span class="badge bg-primary rounded-pill">{{ detalle.cantidad }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            Aún no has realizado ninguna compra.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

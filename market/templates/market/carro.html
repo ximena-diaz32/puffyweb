@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block titulo %}Carro de Compras{% endblock %}
+
+{% block contenido %}
+<br><br>
+<h2 class="text-center">Carrito de Compras</h2>
+<br><br>
+
+{% if carro %}
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+            <th>Actualizar</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for id, item in carro.items %}
+        <tr>
+            <td>{{ item.nombre }}</td>
+            <td>${{ item.precio }}</td>
+            <td>
+                <form method="post" action="{% url 'actualizar_carro' id=id %}">
+                    {% csrf_token %}
+                    <input type="number" name="cantidad" min="0" max="99" value="{{ item.cantidad }}" class="form-control form-control-sm" style="width: 80px;" required>
+            </td>
+            <td>
+                ${{ item.cantidad|floatformat:0|add:"0"|floatformat:0|add:item.precio|floatformat:0 }}
+            </td>
+            <td>
+                    <button type="submit" class="btn btn-sm btn-success">Actualizar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="d-flex justify-content-between">
+    <a href="{% url 'listado' %}" class="btn btn-primary">Seguir comprando</a>
+    <a href="{% url 'vaciar_carro' %}" class="btn btn-danger">Vaciar carrito</a>
+</div>
+
+<br><br>
+
+{% if carro_total > 0 %}
+    <div class="text-center mt-5">
+        <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+            <div class="card-body">
+                <h5 class="card-title">Total del carrito</h5>
+                <p class="fs-4 fw-bold text-success">${{ carro_total }}</p>
+                <p class="mt-3">¿Cómo deseas continuar?</p>
+
+                {% if not user.is_authenticated %}
+                    <div class="d-grid gap-2 d-md-block">
+                        <a href="{% url 'login' %}?next={% url 'ver_carro' %}" class="btn me-2" style="background-color: #42D5F5; color: black;">
+                            <i class="bi bi-box-arrow-in-right"></i> Iniciar sesión
+                        </a>
+                        <a href="{% url 'checkout_invitado' %}" class="btn btn-outline-dark">
+                            <i class="bi bi-person-fill"></i> Continuar como invitado
+                        </a>
+                    </div>
+                {% else %}
+                    <a href="{% url 'checkout' %}" class="btn" style="background-color: #42D5F5; color: black;">
+                        <i class="bi bi-credit-card"></i> Proceder al pago
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% else %}
+<p class="text-center">Tu carrito está vacío.</p>
+<div class="text-center">
+    <a href="{% url 'listado' %}" class="btn btn-primary">Ir a la tienda</a>
+</div>
+{% endif %}
+{% endblock %}

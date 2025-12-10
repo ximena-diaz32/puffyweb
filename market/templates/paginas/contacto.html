@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block titulo %} LISTADO {% endblock %}
+
+{% block contenido %}
+
+<head>
+    <title>Puffy Amigurumis</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#buttonClean').on('click', function (e) {
+                if (confirm("¿Confirme para limpiar el formulario?")) {
+                    $('input').val('');
+                    $('#div-error').hide();
+                    $('#success-message').hide();
+                }
+            });
+
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+                let name = $('#inputName').val();
+                let phone = $('#inputPhone').val();
+                let email = $('#inputEmail').val();
+                let error = [];
+
+                if (name === '') error.push("Debe completar su nombre");
+                if (phone === '') error.push("Debe completar su teléfono");
+                if (email === '') {
+                    error.push("Debe completar su email");
+                } else {
+                    let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!regex.test(email)) error.push("Su email no es válido");
+                }
+
+                if (error.length > 0) {
+                    $('#error-list').empty();
+                    error.forEach(function (err) {
+                        $('#error-list').append('<li>' + err + '</li>');
+                    });
+                    $('#div-error').show();
+                    $('#success-message').hide();
+                } else {
+                    $('#div-error').hide();
+                    $('#success-message').fadeIn();
+                    $('input').val('');
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <br>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4 text-center" text-center>¡Escríbenos!</h1>
+            <br>
+            <p class="lead text-center">¿Quieres comunicarte con nosotros?<br>
+                Dudas, preguntas, consultas, todas son bienvenidas.<br>
+                ¿Quieres uno de nuestros productos?<br>
+                Este es el medio, completa nuestro formulario y te contactaremos a la brevedad.
+            </p>
+        </div>
+    </div>
+
+    <section>
+        <div class="container mt-4">
+            <div id="success-message" class="alert alert-success" style="display: none;">
+                Tu mensaje ha sido enviado correctamente. ¡Gracias por contactarnos!
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <label for="inputName">Nombre (*)</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Ej: Puffy Amigurumis">
+                </div>
+                <div class="form-group">
+                    <label for="inputPhone">Teléfono (*)</label>
+                    <input type="text" class="form-control" id="inputPhone" placeholder="Ej: +569988776655">
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail">Email (*)</label>
+                    <input type="text" class="form-control" id="inputEmail" placeholder="Ej: puffy@amigurumis.xd">
+                </div>
+
+                <div id="div-error" class="alert alert-danger" style="display: none;">
+                    <ul id="error-list"></ul>
+                </div>
+
+                <div class="form-group">
+                    <small>(*) Campos obligatorios</small><br /><br />
+                    <button class="btn btn-sm btn-info" id="buttonClean" type="reset">Limpiar</button>&nbsp;
+                    <button class="btn btn-sm btn-primary" type="submit">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</body>
+<br>
+<section>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-center">O ven a visitarnos...</h1>
+    <br>
+    <p class="lead text-center">Encuentranos en Espacio Urbano, Lider Puente Alto.<br>Lunes a Sábado de 11 a 20 horas.
+    </p><br>
+    <div class="d-flex justify-content-center my-4">
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4699.3699616826725!2d-70.57775511781402!3d-33.60643656523465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d703d33320a9%3A0x1d258119ada0e6b9!2sEspacio%20Urbano%20Puente%20Alto%2B!5e0!3m2!1ses!2scl!4v1750916138732!5m2!1ses!2scl"
+    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+  </div>
+</div>
+</section>
+</body>
+
+   {% endblock%}

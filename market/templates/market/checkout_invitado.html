@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}Finalizar compra{% endblock %}
+
+{% block contenido %}
+<div class="container my-5">
+    <h4 class="mb-4 text-center">Finalizar compra como invitado</h4>
+    <form method="post" class="mx-auto" style="max-width: 500px;">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" name="nombre" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="direccion" class="form-label">Dirección de envío</label>
+            <textarea class="form-control" name="direccion" rows="3" required></textarea>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-success">Ir a pagar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

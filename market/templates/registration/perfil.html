@@ -9,19 +9,41 @@
 
     {% if pedidos %}
         {% for pedido in pedidos %}
-            <div class="card mb-3 shadow-sm">
+            <div class="card mb-4 shadow-sm">
                 <div class="card-header bg-light">
                     <strong>Pedido #{{ pedido.id }}</strong> — {{ pedido.fecha|date:"d/m/Y H:i" }}
                 </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        {% for detalle in pedido.detalles.all %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ detalle.producto.nombre }}
-                                <span class="badge bg-primary rounded-pill">{{ detalle.cantidad }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                <div class="card-body p-0">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Descripción</th>
+                                <th class="text-end">Cantidad</th>
+                                <th class="text-end">Precio</th>
+                                <th>Descarga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for detalle in pedido.detalles.all %}
+                                <tr>
+                                    <td>{{ detalle.producto.nombre }}</td>
+                                    <td>{{ detalle.producto.descripcion|truncatechars:80 }}</td>
+                                    <td class="text-end">{{ detalle.cantidad }}</td>
+                                    <td class="text-end">${{ detalle.producto.precio|floatformat:0 }}</td>
+                                    <td>
+                                        {% if detalle.producto.tipo == 'digital' and detalle.producto.archivo %}
+                                            <a href="{{ detalle.producto.archivo.url }}" class="btn btn-sm btn-outline-primary" download>
+                                                Descargar
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         {% endfor %}

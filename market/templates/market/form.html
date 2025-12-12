@@ -14,7 +14,36 @@
 
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ formulario.as_p }}
+
+        <div class="mb-3">
+            {{ formulario.tipo.label_tag }}
+            {{ formulario.tipo }}
+        </div>
+
+        <div class="mb-3">
+            {{ formulario.nombre.label_tag }}
+            {{ formulario.nombre }}
+        </div>
+
+        <div class="mb-3">
+            {{ formulario.descripcion.label_tag }}
+            {{ formulario.descripcion }}
+        </div>
+
+        <div class="mb-3">
+            {{ formulario.precio.label_tag }}
+            {{ formulario.precio }}
+        </div>
+
+        <div class="mb-3">
+            {{ formulario.stock.label_tag }}
+            {{ formulario.stock }}
+        </div>
+
+        <div class="mb-3">
+            {{ formulario.imagen.label_tag }}
+            {{ formulario.imagen }}
+        </div>
 
         {% if formulario.instance.imagen %}
             <div class="mb-3">
@@ -23,8 +52,29 @@
             </div>
         {% endif %}
 
+        <div class="mb-3" id="archivo-digital" style="display: none;">
+            {{ formulario.archivo.label_tag }}
+            {{ formulario.archivo }}
+        </div>
+
         <button type="submit" class="btn btn-success">Guardar</button>
         <a href="{% url 'market' %}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const tipoSelect = document.getElementById('id_tipo');
+    const archivoDiv = document.getElementById('archivo-digital');
+
+    function toggleArchivo() {
+        archivoDiv.style.display = (tipoSelect.value === 'digital') ? 'block' : 'none';
+    }
+
+    if (tipoSelect) {
+        tipoSelect.addEventListener('change', toggleArchivo);
+        toggleArchivo();  // Ejecutar al cargar
+    }
+});
+</script>
 {% endblock %}

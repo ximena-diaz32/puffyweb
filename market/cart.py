@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 class Cart:
     def __init__(self, request):
         self.session = request.session
@@ -11,37 +13,61 @@ class Cart:
         cantidad_en_carrito = self.cart.get(producto_id, {}).get('cantidad', 0)
         disponible = producto.stock - cantidad_en_carrito
 
-        if disponible <= 0:
-            return  # No hay stock disponible
-
-        cantidad_a_agregar = min(cantidad, disponible)
-
-        if producto_id not in self.cart:
+        if producto.tipo == 'digital':
+            # Solo permitir uno, sin importar la cantidad solicitada
+            if producto_id in self.cart:
+                return  # Ya está en el carrito
             self.cart[producto_id] = {
                 'nombre': producto.nombre,
                 'precio': str(producto.precio),
-                'cantidad': cantidad_a_agregar
+                'cantidad': 1,
+                'tipo': producto.tipo,
+                'subtotal': str(producto.precio)
             }
         else:
-            self.cart[producto_id]['cantidad'] += cantidad_a_agregar
+            if disponible <= 0:
+                return  # No hay stock disponible
+
+            cantidad_a_agregar = min(cantidad, disponible)
+
+            if producto_id not in self.cart:
+                self.cart[producto_id] = {
+                    'nombre': producto.nombre,
+                    'precio': str(producto.precio),
+                    'cantidad': cantidad_a_agregar,
+                    'tipo': producto.tipo
+                }
+            else:
+                self.cart[producto_id]['cantidad'] += cantidad_a_agregar
+
+            subtotal = Decimal(self.cart[producto_id]['precio']) * self.cart[producto_id]['cantidad']
+            self.cart[producto_id]['subtotal'] = str(subtotal)
 
         self.save()
 
     def update(self, producto, cantidad):
         producto_id = str(producto.id)
+
+        if producto.tipo == 'digital':
+            # No permitir cambiar cantidad de productos digitales
+            return
+
         if cantidad <= 0:
             self.remove(producto)
         else:
-            if cantidad > producto.stock:
-                cantidad = producto.stock
+            cantidad = min(cantidad, producto.stock)
             if producto_id in self.cart:
                 self.cart[producto_id]['cantidad'] = cantidad
             else:
                 self.cart[producto_id] = {
                     'nombre': producto.nombre,
                     'precio': str(producto.precio),
-                    'cantidad': cantidad
+                    'cantidad': cantidad,
+                    'tipo': producto.tipo
                 }
+            subtotal = Decimal(self.cart[producto_id]['precio']) * cantidad
+            self.cart[producto_id]['subtotal'] = str(subtotal)
+
         self.save()
 
     def remove(self, producto):
@@ -64,7 +90,7 @@ class Cart:
         return sum(item['cantidad'] for item in self.cart.values())
 
     def get_total_price(self):
-        total = 0
-        for item in self.cart.values():
-            total += float(item['precio']) * int(item['cantidad'])
-        return total
+        return sum(
+            Decimal(item['precio']) * item['cantidad']
+            for item in self.cart.values()
+        )

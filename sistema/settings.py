@@ -1,4 +1,5 @@
 from pathlib import Path
+import os  # Asegúrate de importar os
 
 # Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -72,7 +73,12 @@ USE_I18N = True
 USE_TZ = True
 
 # Archivos estáticos y multimedia
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'market/static'),
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 

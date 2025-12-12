@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titulo %}Confirmación de Pedido{% endblock %}
+
+{% block contenido %}
+<div class="container my-5 d-flex justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow">
+            <div class="card-header text-center text-black" style="background-color: #42D5F5;">
+                <h4>¡Gracias por tu compra!</h4>
+            </div>
+            <div class="card-body text-center">
+                <p class="mb-3">Tu pedido ha sido recibido correctamente.</p>
+                <p class="mb-4">Te enviaremos un correo con los detalles a la dirección proporcionada.</p>
+                {% if productos_digitales %}
+    <hr>
+    <h5 class="mt-4">Productos digitales adquiridos</h5><br>
+    <ul class="list-group">
+        {% for item in productos_digitales %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ item.producto.nombre }}
+                {% if item.producto.archivo %}
+                    <a href="{{ item.producto.archivo.url }}" class="btn btn-sm btn-outline-primary" download>
+                        Descargar
+                    </a>
+                {% else %}
+                    <span class="text-muted">Archivo no disponible</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}      
+<br>     
+                <a href="{% url 'listado' %}" class="btn text-black" style="background-color: #42D5F5;">
+                    Volver a la tienda
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

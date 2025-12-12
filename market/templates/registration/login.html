@@ -6,26 +6,37 @@
     <div class="col-md-6 col-lg-5">
         <div class="card shadow">
             <div class="card-header text-center text-black" style="background-color: #42D5F5;">
-                <h4>Iniciar sesión</h4>
+                <h4 class="mb-0">Iniciar sesión</h4>
             </div>
             <div class="card-body">
                 {% if form.errors %}
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger text-center">
                         Usuario o contraseña incorrectos. Inténtalo nuevamente.
                     </div>
                 {% endif %}
 
-                <form method="post" novalidate class="text-center">
+                <form method="post" novalidate>
                     {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="id_username" class="form-label">Usuario</label><br>
-                        {{ form.username }}
-                    </div>
-                    <div class="mb-3">
-                        <label for="id_password" class="form-label">Contraseña</label><br>
-                        {{ form.password }}
-                    </div>
-                    <div class="d-grid mb-2">
+                    {% for field in form %}
+                        <div class="mb-4">
+                            <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                            <input
+                                type="{{ field.field.widget.input_type }}"
+                                name="{{ field.html_name }}"
+                                id="{{ field.id_for_label }}"
+                                class="form-control"
+                                value="{{ field.value|default_if_none:'' }}"
+                                {% if field.field.required %}required{% endif %}
+                            >
+                            {% if field.errors %}
+                                <div class="text-danger small mt-1">
+                                    {{ field.errors|striptags }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-grid mb-3">
                         <button type="submit" class="btn text-black" style="background-color: #42D5F5;">
                             Ingresar
                         </button>

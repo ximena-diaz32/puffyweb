@@ -29,7 +29,7 @@
                         <td>{{ producto.id }}</td>
                         <td>{{ producto.nombre }}</td>
                         <td>{{ producto.descripcion }}</td>
-                        <td>{{ producto.precio }}</td>
+                        <td>${{ producto.precio|floatformat:0 }}</td>
                         <td>{{ producto.stock }}</td>
                         <td>
                             <div class="d-flex">
